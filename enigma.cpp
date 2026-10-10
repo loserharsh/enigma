@@ -34,14 +34,17 @@ public:
 class rotors{
     private:
         int position = 0;
+        int npos;
 
         std::array<int, 26> wiring;
         std::array<int, 26> back_wiring;
 
-        public:
-        rotors(std::array<int,26> w){
+    public:
+        rotors(std::array<int,26> w, int n = -1){
             wiring = w;
+            npos = n;
             position = 0;
+
 
             for (int i = 0; i < 26 ; i++){
                 int j = wiring[i];
@@ -67,6 +70,9 @@ class rotors{
         int pos(){
             return position;
         }
+        bool is_npos(){
+            return position == npos;
+        }
     };
 
 
@@ -80,13 +86,21 @@ void run(std::string text){
 };
     
 
-    rotors r1(w_rotos1);
-    rotors r2(w_rotos2);
-    rotors r3(w_rotos3);
-    rotors br(b_r);
+    rotors r1(w_rotos1, 16);
+    rotors r2(w_rotos2, 4);
+    rotors r3(w_rotos3, 21);
+    rotors br(b_r,-1);
     for (int i = 0; i < text.length(); i++){
         int letter = text[i] - 'A';
 
+        if (r2.is_npos()){
+            r2.step();
+            r3.step();
+        }
+        else if(r1.is_npos()){
+            r2.step();
+
+        }
         r1.step();
     
         int x1 = r1.forward(letter);
@@ -98,17 +112,18 @@ void run(std::string text){
         int b3 = r3.backward(reflected);
         int b2 = r2.backward(b3);
         int b1 = r1.backward(b2);
-        
+
+        // std::cout << r3.pos();
+        // std::cout << " ";
+        // std::cout << r2.pos();
+        // std::cout << " ";
+        // std::cout << r1.pos();
+        // std::cout << " ";
         std::cout << (char)(b1 + 'A');
     };
 }
 int main() {
-    std::cout << "Encrypting HELLO: ";
-    run("HELLO");
-    std::cout << std::endl;
-
-    std::cout << "Decrypting JVSJG: ";
-    run("OONVA");
+    run("OUFPOILEQSFHKJKXURIYL");
     std::cout << std::endl;
 
     return 0;
