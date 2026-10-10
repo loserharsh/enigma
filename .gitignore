@@ -1,0 +1,10 @@
+# Compiled binaries
+enigma
+*.exe
+*.out
+*.o
+
+# Temporary editor files
+tempCodeRunnerFile*
+.vscode/
+.DS_Store
